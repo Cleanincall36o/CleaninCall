@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cleanin'Call — Maintenance temporaire</title>
+  <meta name="description" content="Cleanin'Call est actuellement en maintenance. Nous reviendrons bientôt avec de nouvelles améliorations !">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --mint: #20c997;
+      --dark: #0f1729;
+      --ink: #1a2332;
+      --ink-sub: #5a6b7a;
+      --ink-mute: #8b95a5;
+      --light: #f8fafb;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: linear-gradient(135deg, #f8fafb 0%, #e8f5f0 100%);
+      color: var(--ink);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .maintenance-container {
+      max-width: 600px;
+      background: white;
+      border-radius: 24px;
+      padding: 60px 40px;
+      box-shadow: 0 10px 40px rgba(15, 23, 41, 0.08);
+      text-align: center;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .maintenance-icon {
+      font-size: 80px;
+      margin-bottom: 30px;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: var(--ink-sub);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, rgba(32, 201, 151, 0.1), rgba(32, 201, 151, 0.05));
+      border: 2px solid rgba(32, 201, 151, 0.2);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 30px;
+      text-align: left;
+    }
+
+    .info-box h2 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--mint);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .info-box p {
+      color: var(--ink-sub);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .contact-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(32, 201, 151, 0.15);
+    }
+
+    .contact-section h3 {
+      font-size: 14px;
+      color: var(--ink-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .contact-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .contact-method {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: rgba(32, 201, 151, 0.08);
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--mint);
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-method:hover {
+      background: rgba(32, 201, 151, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--mint);
+      margin-bottom: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .loader {
+      display: inline-block;
+      width: 40px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--mint) 0%, rgba(32, 201, 151, 0.2) 100%);
+      border-radius: 2px;
+      margin: 30px 0;
+      animation: loading 2s infinite;
+    }
+
+    @keyframes loading {
+      0% { width: 40px; }
+      50% { width: 80px; }
+      100% { width: 40px; }
+    }
+
+    .back-to-site {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(32, 201, 151, 0.15);
+    }
+
+    .back-to-site a {
+      display: inline-block;
+      padding: 12px 28px;
+      background: rgba(32, 201, 151, 0.1);
+      color: var(--mint);
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(32, 201, 151, 0.2);
+    }
+
+    .back-to-site a:hover {
+      background: var(--mint);
+      color: white;
+    }
+
+    @media (max-width: 640px) {
+      .maintenance-container {
+        padding: 40px 24px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .maintenance-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+      }
+
+      .info-box {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="maintenance-container">
+    <div class="logo">Cleanin'Call</div>
+    
+    <div class="maintenance-icon">🔧</div>
+
+    <h1>En maintenance</h1>
+    
+    <p class="subtitle">
+      Nous améliorons notre site pour vous offrir la meilleure expérience possible. 
+      Nous reviendrons très bientôt avec de nouvelles fonctionnalités !
+    </p>
+
+    <div class="loader"></div>
+
+    <div class="info-box">
+      <h2>⏱️ Estimation</h2>
+      <p>Nous devrions être de retour <strong>d'ici quelques heures</strong>. Merci de votre patience !</p>
+    </div>
+  </div>
+</body>
+</html>

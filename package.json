@@ -1,0 +1,9 @@
+{
+  "name": "cleanincall",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Site L'Auto-Mobile et generation automatique des devis PDF",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  }
+}

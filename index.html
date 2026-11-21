@@ -1041,7 +1041,7 @@ body.svc-locked{overflow:hidden;}
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
-              Aucun problème. <strong>L'annulation est gratuite jusqu'à 2h avant le rendez-vous.</strong> Au-delà, nous demandons simplement un délai de prévenance pour pouvoir réorganiser la journée. Un simple appel ou message suffit.
+              Aucun problème. <strong>L'annulation est toujours gratuite.</strong> Prévenez-nous simplement dès que possible pour que nous puissions réorganiser la journée. Un simple appel ou message suffit.
             </div>
           </div>
         </div>
@@ -1244,6 +1244,7 @@ body.svc-locked{overflow:hidden;}
             <div class="form-success-icon">✓</div>
             <h3>Demande envoyée !</h3>
             <p>Merci pour votre confiance. Nous reviendrons vers vous sous 24h avec un devis personnalisé.</p>
+            <button type="button" class="btn btn-glass" style="margin-top:22px" onclick="showView('devis')">Faire une autre demande</button>
           </div>
         </form>
       </div>
@@ -1381,6 +1382,12 @@ body.svc-locked{overflow:hidden;}
 
   // Système de navigation entre les pages
   function showView(viewName) {
+    // Après l'envoi d'un devis, on recharge la page pour repartir d'un formulaire vierge
+    if (devisEnvoye) {
+      try { sessionStorage.setItem('prochaineVue', viewName); } catch (err) {}
+      location.reload();
+      return;
+    }
     // Cacher toutes les vues
     document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
     // Afficher la vue demandée
@@ -1398,6 +1405,7 @@ body.svc-locked{overflow:hidden;}
 
   // Aller vers les mentions légales / la politique de confidentialité
   function showLegal(anchorId) {
+    if (devisEnvoye) { try { sessionStorage.setItem('prochaineAncre', anchorId); } catch (err) {} }
     showView('legal');
     setTimeout(() => {
       const el = document.getElementById(anchorId);
@@ -1689,6 +1697,28 @@ body.svc-locked{overflow:hidden;}
     element.classList.toggle('open');
   }
 
+  // Devis envoyé ? (déclenche un rechargement propre à la prochaine navigation)
+  var devisEnvoye = false;
+
+  // Après un rechargement : revenir sur la page demandée
+  (function () {
+    try {
+      var vue = sessionStorage.getItem('prochaineVue');
+      var ancre = sessionStorage.getItem('prochaineAncre');
+      sessionStorage.removeItem('prochaineVue');
+      sessionStorage.removeItem('prochaineAncre');
+      if (vue) {
+        showView(vue);
+        if (ancre) {
+          setTimeout(function () {
+            var el = document.getElementById(ancre);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 60);
+        }
+      }
+    } catch (err) {}
+  })();
+
   // Soumission du formulaire
   function submitForm(e) {
     e.preventDefault();
@@ -1703,6 +1733,7 @@ body.svc-locked{overflow:hidden;}
       body: new URLSearchParams(formData).toString()
     }).catch(err => console.error('Erreur envoi Netlify:', err));
     
+    devisEnvoye = true;
     // Afficher le message de succès (sans redirection)
     document.getElementById('formFields').style.display = 'none';
     document.getElementById('formSuccess').classList.add('active');
@@ -1750,12 +1781,12 @@ body.svc-locked{overflow:hidden;}
 <script>
 const GABARITS = [
   {id:'microcar', name:"Microcar", price:0, models:"Aixam · Ligier · Citroën Ami · Microlino · voiturette sans permis", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
-  {id:'citadine', name:"Citadine", price:20, models:"Renault Clio · Peugeot 208 · Fiat 500 · Toyota Yaris · Corsa · C3", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
-  {id:'berline', name:"Berline", price:30, models:"Peugeot 508 · BMW Série 3 · Audi A4 · Mercedes Classe C · Golf", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
-  {id:'monosuv', name:"Monospace & SUV compact", price:40, models:"Peugeot 3008 · Renault Scénic · Audi Q3 · VW Tiguan · Espace · 2008", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
-  {id:'grandsuv', name:"Grand SUV", price:50, models:"Audi Q7 · Q8 · BMW X5 · X6 · Mercedes GLE · Peugeot 5008", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
-  {id:'sportive', name:"Sportive", price:60, models:"Porsche 911 · Cayman · Audi RS · BMW M · AMG · Alpine A110", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
-  {id:'utilitaire', name:"Van / Utilitaire", price:70, models:"Renault Trafic · VW Transporter · Mercedes Vito · Berlingo", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
+  {id:'citadine', name:"Citadine", price:10, models:"Renault Clio · Peugeot 208 · Fiat 500 · Toyota Yaris · Corsa · C3", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
+  {id:'berline', name:"Berline", price:20, models:"Peugeot 508 · BMW Série 3 · Audi A4 · Mercedes Classe C · Golf", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
+  {id:'monosuv', name:"Monospace & SUV compact", price:30, models:"Peugeot 3008 · Renault Scénic · Audi Q3 · VW Tiguan · Espace · 2008", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
+  {id:'grandsuv', name:"Grand SUV", price:40, models:"Audi Q7 · Q8 · BMW X5 · X6 · Mercedes GLE · Peugeot 5008", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
+  {id:'sportive', name:"Sportive", price:50, models:"Porsche 911 · Cayman · Audi RS · BMW M · AMG · Alpine A110", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
+  {id:'utilitaire', name:"Van / Utilitaire", price:60, models:"Renault Trafic · VW Transporter · Mercedes Vito · Berlingo", svg:"<svg viewBox=\"0 0 120 60\"></svg>" },
   {id:'poidslourd', name:"Poids lourd", price:null, disabled:true, models:"Camion · Porteur · Tracteur routier · Benne", svg:"<svg viewBox=\"0 0 120 60\"></svg>" }
 ];
 const SVC_DATA = {"int-raf": {"cat": "Lavage intérieur", "name": "Rafraîchissement", "tag": "L'essentiel pour un habitacle propre", "price": 39, "gamme": "Rafraîchissement intérieur", "icon": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2L2 7l10 5 10-5-10-5z\"/><path d=\"M2 17l10 5 10-5\"/><path d=\"M2 12l10 5 10-5\"/></svg>", "feat": ["Aspiration profonde tapis, moquettes &amp; sièges", "Dépoussiérage des plastiques", "Nettoyage des surfaces intérieures", "Nettoyage des vitres intérieures"], "opts": [["Shampouinage des sièges", 15], ["Véhicule sale (sièges, moquettes…)", 25], ["Poils d'animaux, sable", 25], ["Salissure organique", 20], ["Nettoyage plafonnier", 10]], "hlAvailable": true}, "int-sig": {"cat": "Lavage intérieur", "name": "Signature", "tag": "L'excellence pour un intérieur premium", "price": 59, "gamme": "Signature intérieure", "icon": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z\"/></svg>", "feat": ["Tout ce qui est inclus dans <em>Rafraîchissement</em>", "Nettoyage approfondi des plastiques", "Shampoing par injection-extraction des tissus", "Protection anti-UV des plastiques", "Nourrissant cuirs &amp; alcantara au baume nourrissant"], "opts": [["Véhicule sale (sièges, moquettes…)", 25], ["Poils d'animaux, sable", 25], ["Salissure organique", 20], ["Traitement à l'ozone (élimine les odeurs)", 5], ["Nettoyage plafonnier", 10]], "hlAvailable": true}, "ext-raf": {"cat": "Lavage extérieur", "name": "Rafraîchissement", "tag": "Le lavage extérieur complet à domicile", "price": 29, "gamme": "Lavage extérieur", "icon": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2L2 7l10 5 10-5-10-5z\"/><path d=\"M2 17l10 5 10-5\"/><path d=\"M2 12l10 5 10-5\"/></svg>", "feat": ["Lavage extérieur écologique", "Nettoyage des jantes", "Nettoyage des vitres extérieures", "Séchage soigneux à la microfibre"], "opts": [["Protection hydrophobe", 10], ["Véhicule sale", 10]], "gabaritScale": 0.5}, "cpl-raf": {"cat": "Formule complète", "name": "Rafraîchissement", "tag": "L'essentiel intérieur + extérieur", "price": 59, "gamme": "Rafraîchissement complet", "icon": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2L2 7l10 5 10-5-10-5z\"/><path d=\"M2 17l10 5 10-5\"/><path d=\"M2 12l10 5 10-5\"/></svg>", "feat": ["Toutes les prestations <em>Rafraîchissement intérieur</em>", "Toutes les prestations <em>Rafraîchissement extérieur</em>", "Intérieur &amp; extérieur <strong>en une seule intervention</strong>"], "opts": [["Shampouinage des sièges", 15], ["Véhicule sale intérieur (sièges, moquettes…)", 25], ["Poils d'animaux, sable", 25], ["Salissure organique", 20], ["Nettoyage plafonnier", 10], ["Protection hydrophobe (carrosserie)", 10], ["Véhicule sale (extérieur)", 10]]}, "cpl-sig": {"cat": "Formule complète", "name": "Signature", "tag": "L'excellence intérieur + extérieur", "price": 79, "gamme": "Signature complète", "icon": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z\"/></svg>", "feat": ["Toutes les prestations <em>Signature intérieure</em>", "Lavage extérieur écologique complet", "Intérieur &amp; extérieur <strong>en une seule intervention</strong>"], "opts": [["Véhicule sale intérieur (sièges, moquettes…)", 25], ["Poils d'animaux, sable", 25], ["Salissure organique", 20], ["Traitement à l'ozone (élimine les odeurs)", 5], ["Nettoyage plafonnier", 10], ["Protection hydrophobe (carrosserie)", 10], ["Véhicule sale (extérieur)", 10]]}};

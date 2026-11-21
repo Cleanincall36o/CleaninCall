@@ -45,7 +45,7 @@ function corpsHtml(donnees) {
   </div>`;
 }
 
-const TELEPHONE = '06 27 82 39 81';
+const TELEPHONE = '07 56 97 84 25';
 const SITE = 'https://lauto-mobile-nettoyage.com';
 
 function adresseValide(adresse) {

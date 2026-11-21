@@ -20,7 +20,7 @@ const ENTREPRISE = {
   nom: "L'Auto-Mobile Nettoyage",
   ancien: "(anciennement Cleanin'Call)",
   siret: 'SIRET : 103 998 696 00019',
-  tel: 'Tél. : 06 27 82 39 81',
+  tel: 'Tél. : 07 56 97 84 25',
   email: 'contact@lauto-mobile-nettoyage.com',
   pied: "L'Auto-Mobile Nettoyage · Meudon-la-Forêt · Île-de-France",
   site: 'lauto-mobile-nettoyage.com',
@@ -328,7 +328,7 @@ async function genererDevisPdf(donnees, dateSoumission) {
   haut += 20;
 
   const conditions = "Montant estimatif établi sur la base des informations transmises, ajustable après constat de l'état réel du véhicule. " +
-    "Devis valable 30 jours. Annulation gratuite jusqu'à 2h avant le rendez-vous. " +
+    "Devis valable 30 jours. Annulation toujours gratuite. " +
     "Intervention réalisée sur place, en autonomie complète : eau et électricité fournies par L'Auto-Mobile.";
   const lignesCond = couper(conditions, barlow, 7.5, DROITE - MARGE);
   if (haut + 13 + lignesCond.length * 10 < LIMITE) {
